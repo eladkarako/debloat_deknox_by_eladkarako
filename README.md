@@ -60,8 +60,9 @@ from <code>/resources/alternative-file_update-binary</code> if you are getting a
 <li>
 Double-click the <code>_build.cmd</code> will create a ready to flash zip,<br/>
 under the repository folder, it will ignore <code>.git</code>, <code>.github</code>, <code>resources</code>, <br/>
-<code>.gitattributes</code> and other files and folders that are related to the repository <br/>
-and not related to what should be in a flashable-zip. <br/>
+<code>.gitattributes</code> and other files and folders that are related to the repository, <br/>
+and not related to what should be in a flashable-zip, <br/>
+it also ignores previously generated builds zip-files, based on their initial-name (but might be of different versions of course). <br/>
 
 It will also 4byte-align the zip, <br/>
 which is something required in Android systems to improve reading files. <br/>
