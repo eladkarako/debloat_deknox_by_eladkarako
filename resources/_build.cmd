@@ -10,7 +10,7 @@ del /f /q "%FILENAME%_aligned.zip"          1>nul 2>nul
 del /f /q "%FILENAME%.zip.old"              1>nul 2>nul
 ren "%FILENAME%.zip" "%FILENAME%.zip.old"   1>nul 2>nul
 
-call "resources\7z.exe" a -tzip -x!"%FILENAME%.zip" -x!"%FILENAME%.old" -x!".git" -x!".github" -x!"resources" -x!".gitattributes" -x!"LICENSE" -x!"README.md" -y -mmt4 -mx9 -ssw "%FILENAME%.zip" *
+call "resources\7z.exe" a -tzip -x!"%FILENAME%.zip" -x!"%FILENAME%.zip.old" -x!"%FILENAME%.old" -x!".git" -x!".github" -x!"resources" -x!".gitattributes" -x!"LICENSE" -x!"README.md" -y -mmt4 -mx9 -ssw "%FILENAME%.zip" *
 echo.
 call "resources\zipalign.exe" -f -v 4 "%FILENAME%.zip" "%FILENAME%_aligned.zip"
 
