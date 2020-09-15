@@ -1,0 +1,5 @@
+/*.zip
+
+!/META-INF/*.zip
+!/resources/*.zip
+!/tools/*.zip
