@@ -1,4 +1,0 @@
-#!/sbin/sh
-
-###/tmp/busybox
-
