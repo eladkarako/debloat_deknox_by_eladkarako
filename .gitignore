@@ -1,4 +1,5 @@
 /*.zip
+/*.zip.old
 
 !/META-INF/*.zip
 !/resources/*.zip
