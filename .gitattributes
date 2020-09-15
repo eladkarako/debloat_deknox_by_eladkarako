@@ -1,0 +1,13 @@
+/tools/busybox                                binary
+/tools/su                                     binary
+/tools/toolbox                                binary
+/META-INF/com/google/android/update-binary    binary
+
+/--alternative_busybox-files/*                binary
+/--alternative_update-binary-files/*          binary
+
+/tools/cleaner.sh                             text     eol=lf
+/tools/mount.sh                               text     eol=lf
+/META-INF/com/google/android/updater-script   text     eol=lf
+
+README.md                                              eol=crlf
