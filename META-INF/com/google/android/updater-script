@@ -7,247 +7,65 @@ ui_print("=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=");
 ui_print("=  afterwards, manually clear your caches.      =");
 ui_print("=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=");
 ui_print("");
-ui_print("");
 set_progress(0.10);
 
 
+###
+### Note:
+### 1. custom recovery comes with busybox (or an equivalent) and su (but its for when runnin in recovery).
+### 2. don't 'busybox' directly (for example '/sbin/busybox mount /system'), use its symlinks!!! (for example '/sbin/mount /system').
+###
+
+
 ui_print("---------------------------------");
-ui_print("-[INFO 1/6] deploying tools.    -");
+ui_print("-[INFO 1/6] mounting /system    -");
 ui_print("---------------------------------");
-package_extract_file("tools/busybox", "/tmp/busybox");
-package_extract_file("tools/su", "/tmp/su");
-set_perm(0, 0777, 0777, "/tmp/busybox");
-set_perm(0, 0777, 0777, "/tmp/su");
-ui_print("");
+run_program("/sbin/umount", "/system");
+run_program("/sbin/mount", "/system");
+ifelse(is_mounted("/system"), "", run_program("/sbin/mount", "-o", "rw,remount", "-t", "auto", "/system"));
+ifelse(is_mounted("/system"), "", run_program("/sbin/mount", "-o", "rw,remount", "/system", "/system"));
+###Note:for exynos5410 (Galaxy S4)      ifelse(is_mounted("/system"), "", mount("ext4", "EMMC", "/dev/block/mmcblk0p20", "/system"));
+###Note:for exynos7420 (Galaxy Note5)   ifelse(is_mounted("/system"), "", run_program("/sbin/mount", "/dev/block/platform/15570000.ufs/by-name/SYSTEM", "/system"));
 ui_print("");
 set_progress(0.20);
 
 
 ui_print("---------------------------------");
-ui_print("-[INFO 2/6] mounting /system    -");
+ui_print("-[INFO 2/6] deploying cleaners. -");
 ui_print("---------------------------------");
-run_program("/tmp/busybox", "mount", "/system");
-run_program("/tmp/busybox", "mount", "-o", "rw,remount", "-t", "auto", "/system");
-ifelse(is_mounted("/system"), "", run_program("/tmp/busybox", "mount", "-o", "rw,remount", "/system", "/system"));
-ifelse(is_mounted("/system"), "", mount("ext4", "EMMC", "/dev/block/mmcblk0p20", "/system"));
+package_extract_dir("tools", "/tmp/tools");
+set_perm_recursive(0, 0, 0755, "/tmp/tools");
 ui_print("");
-ui_print("");
-set_progress(0.40);
+set_progress(0.30);
 
 
 ui_print("---------------------------------");
 ui_print("-[INFO 3/6] cleaning KNOX       -");
 ui_print("---------------------------------");
-run_program("/tmp/busybox", "rm", "-fr", "/system/app/BBCAgent*");
-run_program("/tmp/busybox", "rm", "-fr", "/system/app/Bridge*");
-run_program("/tmp/busybox", "rm", "-fr", "/system/app/ContainerAgent*");
-run_program("/tmp/busybox", "rm", "-fr", "/system/app/ContainerEventsRelayManager*");
-run_program("/tmp/busybox", "rm", "-fr", "/system/app/kioskdefault*");
-run_program("/tmp/busybox", "rm", "-fr", "/system/app/KLMSAgent*");
-run_program("/tmp/busybox", "rm", "-fr", "/system/app/Knox*");
-run_program("/tmp/busybox", "rm", "-fr", "/system/app/KNOX*");
-run_program("/tmp/busybox", "rm", "-fr", "/system/app/MDMApp*");
-run_program("/tmp/busybox", "rm", "-fr", "/system/app/MyKNOX*");
-run_program("/tmp/busybox", "rm", "-fr", "/system/app/RCPComponents*");
-run_program("/tmp/busybox", "rm", "-fr", "/system/app/SamsungDLPService");
-run_program("/tmp/busybox", "rm", "-fr", "/system/app/SecurityLogAgent*");
-run_program("/tmp/busybox", "rm", "-fr", "/system/app/SecurityProviderSEC*");
-run_program("/tmp/busybox", "rm", "-fr", "/system/app/SwitchKnoxI*");
-run_program("/tmp/busybox", "rm", "-fr", "/system/app/SysScope*");
-run_program("/tmp/busybox", "rm", "-fr", "/system/app/UniversalMDMClient*");
-run_program("/tmp/busybox", "rm", "-fr", "/system/container*");
-run_program("/tmp/busybox", "rm", "-fr", "/system/etc/secure_storage/com.sec.knox*");
-run_program("/tmp/busybox", "rm", "-fr", "/system/etc/permissions/knoxsdk_mdm.xml");
-run_program("/tmp/busybox", "rm", "-fr", "/system/etc/permissions/knoxsdk_edm.xml");
-run_program("/tmp/busybox", "rm", "-fr", "/system/preloadedkiosk*");
-run_program("/tmp/busybox", "rm", "-fr", "/system/preloadedmdm*");
-run_program("/tmp/busybox", "rm", "-fr", "/system/preloadedsso*");
-run_program("/tmp/busybox", "rm", "-fr", "/system/priv-app/DiagMonAgent*");
-run_program("/tmp/busybox", "rm", "-fr", "/system/priv-app/KLMSAgent*");
-run_program("/tmp/busybox", "rm", "-fr", "/system/priv-app/SecureFolderStub*");
-run_program("/tmp/busybox", "rm", "-fr", "/system/priv-app/SPDClient*");
-run_program("/tmp/busybox", "rm", "-fr", "/system/priv-app/KnoxCore*");
-run_program("/tmp/busybox", "rm", "-fr", "/system/priv-app/knoxvpnproxyhandler*");
-run_program("/tmp/busybox", "rm", "-fr", "/system/priv-app/knoxanalyticsagent");
-run_program("/tmp/busybox", "rm", "-fr", "/system/priv-app/KnoxDesktopLauncher");
-run_program("/tmp/busybox", "rm", "-fr", "/system/priv-app/KnoxKeyChain");
+run_program("/sbin/sh", "/tmp/tools/assist_cleaner_knox.sh");
 ui_print("");
-ui_print("");
-set_progress(0.60);
-
-
-############
-############ beware of removing:
-############ Velvet (has tts libs in usage), 
-############ any tts packages (you may freeze them), 
-############ or Flipboard (the container is still in use in home pages).
-############
+set_progress(0.40);
 
 
 ui_print("---------------------------------");
 ui_print("-[INFO 4/6] cleaning bloats     -");
 ui_print("---------------------------------");
-###run_program("/tmp/busybox", "rm", "-fr", "/system/app/DriveMode*");
-###run_program("/tmp/busybox", "rm", "-fr", "/system/app/Email*");
-###run_program("/tmp/busybox", "rm", "-fr", "/system/app/Exchange*");
-###run_program("/tmp/busybox", "rm", "-fr", "/system/app/Gmail2*");
-###run_program("/tmp/busybox", "rm", "-fr", "/system/app/Music2*");
-###run_program("/tmp/busybox", "rm", "-fr", "/system/app/TaskManager*");
-###run_program("/tmp/busybox", "rm", "-fr", "/system/app/Videos*");
-###run_program("/tmp/busybox", "rm", "-fr", "/system/app/WeatherClock*");
-###run_program("/tmp/busybox", "rm", "-fr", "/system/priv-app/Email*");
-###run_program("/tmp/busybox", "rm", "-fr", "/system/priv-app/ExchangeZTE*");
-run_program("/tmp/busybox", "rm", "-fr", "/system/app/aaIgnite*");
-run_program("/tmp/busybox", "rm", "-fr", "/system/app/ATTSmartWiFi*");
-run_program("/tmp/busybox", "rm", "-fr", "/system/app/BatteryTracer*");
-run_program("/tmp/busybox", "rm", "-fr", "/system/app/Books*");
-run_program("/tmp/busybox", "rm", "-fr", "/system/app/BoostZone*");
-run_program("/tmp/busybox", "rm", "-fr", "/system/app/Bug2Go*");
-run_program("/tmp/busybox", "rm", "-fr", "/system/app/CangjieQwertyPack*");
-run_program("/tmp/busybox", "rm", "-fr", "/system/app/ChatON*");
-run_program("/tmp/busybox", "rm", "-fr", "/system/app/Chrome*");
-run_program("/tmp/busybox", "rm", "-fr", "/system/app/ChromeWithBrowser*");
-run_program("/tmp/busybox", "rm", "-fr", "/system/app/ChsHandWritePack*");
-run_program("/tmp/busybox", "rm", "-fr", "/system/app/ChsPack*");
-run_program("/tmp/busybox", "rm", "-fr", "/system/app/ChtPack*");
-run_program("/tmp/busybox", "rm", "-fr", "/system/app/CityID*");
-run_program("/tmp/busybox", "rm", "-fr", "/system/app/CloudPrint*");
-run_program("/tmp/busybox", "rm", "-fr", "/system/app/com.mobitv.client.tv*");
-run_program("/tmp/busybox", "rm", "-fr", "/system/app/ConnectionsOptimizer*");
-run_program("/tmp/busybox", "rm", "-fr", "/system/app/Cricket-Connect*");
-run_program("/tmp/busybox", "rm", "-fr", "/system/app/CricketLauncher_MyAccount*");
-run_program("/tmp/busybox", "rm", "-fr", "/system/app/DigitalLocker*");
-run_program("/tmp/busybox", "rm", "-fr", "/system/app/Drive*");
-run_program("/tmp/busybox", "rm", "-fr", "/system/app/EditorsDocs*");
-run_program("/tmp/busybox", "rm", "-fr", "/system/app/Evernote*");
-run_program("/tmp/busybox", "rm", "-fr", "/system/app/facebook*");
-run_program("/tmp/busybox", "rm", "-fr", "/system/app/Facebook*");
-run_program("/tmp/busybox", "rm", "-fr", "/system/app/Famigo*");
-run_program("/tmp/busybox", "rm", "-fr", "/system/app/FBAppManager*");
-run_program("/tmp/busybox", "rm", "-fr", "/system/app/FBInstagram*");
-run_program("/tmp/busybox", "rm", "-fr", "/system/app/FeaturedApps*");
-run_program("/tmp/busybox", "rm", "-fr", "/system/app/FrenchPack*");
-run_program("/tmp/busybox", "rm", "-fr", "/system/app/GadgetGuardian*");
-run_program("/tmp/busybox", "rm", "-fr", "/system/app/GoogleDrive*");
-run_program("/tmp/busybox", "rm", "-fr", "/system/app/GoogleHindiIME*");
-run_program("/tmp/busybox", "rm", "-fr", "/system/app/GooglePinyinIME*");
-run_program("/tmp/busybox", "rm", "-fr", "/system/app/Hangouts*");
-run_program("/tmp/busybox", "rm", "-fr", "/system/app/IPLog*");
-run_program("/tmp/busybox", "rm", "-fr", "/system/app/IQDataUploadReport*");
-run_program("/tmp/busybox", "rm", "-fr", "/system/app/iWnnIME*");
-run_program("/tmp/busybox", "rm", "-fr", "/system/app/KoreanIME*");
-run_program("/tmp/busybox", "rm", "-fr", "/system/app/Magazines*");
-run_program("/tmp/busybox", "rm", "-fr", "/system/app/Maps*");
-run_program("/tmp/busybox", "rm", "-fr", "/system/app/Mi-EasyAccess*");
-run_program("/tmp/busybox", "rm", "-fr", "/system/app/MobileZone*");
-run_program("/tmp/busybox", "rm", "-fr", "/system/app/moffice*");
-run_program("/tmp/busybox", "rm", "-fr", "/system/app/MSSkype*");
-run_program("/tmp/busybox", "rm", "-fr", "/system/app/MuveLauncher-release*");
-run_program("/tmp/busybox", "rm", "-fr", "/system/app/Navigator*");
-run_program("/tmp/busybox", "rm", "-fr", "/system/app/Newsstand*");
-run_program("/tmp/busybox", "rm", "-fr", "/system/app/NotesPad*");
-run_program("/tmp/busybox", "rm", "-fr", "/system/app/NoteWidget*");
-run_program("/tmp/busybox", "rm", "-fr", "/system/app/Plants_Vs_Zombies*");
-run_program("/tmp/busybox", "rm", "-fr", "/system/app/PlayGames*");
-run_program("/tmp/busybox", "rm", "-fr", "/system/app/PlusOne*");
-run_program("/tmp/busybox", "rm", "-fr", "/system/app/PolarisViewer*");
-run_program("/tmp/busybox", "rm", "-fr", "/system/app/Quickoffice*");
-run_program("/tmp/busybox", "rm", "-fr", "/system/app/RealRacing*");
-run_program("/tmp/busybox", "rm", "-fr", "/system/app/SamsungGames*");
-run_program("/tmp/busybox", "rm", "-fr", "/system/app/SamsungHub*");
-run_program("/tmp/busybox", "rm", "-fr", "/system/app/Shop*");
-run_program("/tmp/busybox", "rm", "-fr", "/system/app/Shopmusic*");
-run_program("/tmp/busybox", "rm", "-fr", "/system/app/slackerradio*");
-run_program("/tmp/busybox", "rm", "-fr", "/system/app/SpanishPack*");
-run_program("/tmp/busybox", "rm", "-fr", "/system/app/SPR_Skyfire_*");
-run_program("/tmp/busybox", "rm", "-fr", "/system/app/SprintID*");
-run_program("/tmp/busybox", "rm", "-fr", "/system/app/SprintInstaller*");
-run_program("/tmp/busybox", "rm", "-fr", "/system/app/SprintZone*");
-run_program("/tmp/busybox", "rm", "-fr", "/system/app/Swype*");
-run_program("/tmp/busybox", "rm", "-fr", "/system/app/talkback*");
-run_program("/tmp/busybox", "rm", "-fr", "/system/app/Timer*");
-run_program("/tmp/busybox", "rm", "-fr", "/system/app/TouchPal*");
-run_program("/tmp/busybox", "rm", "-fr", "/system/app/Translate*");
-run_program("/tmp/busybox", "rm", "-fr", "/system/app/TravelService_K*");
-run_program("/tmp/busybox", "rm", "-fr", "/system/app/TravelWidget*");
-run_program("/tmp/busybox", "rm", "-fr", "/system/app/TripAdvisor*");
-run_program("/tmp/busybox", "rm", "-fr", "/system/app/Twitter*");
-run_program("/tmp/busybox", "rm", "-fr", "/system/app/WhatsApp*");
-run_program("/tmp/busybox", "rm", "-fr", "/system/app/WiFiShare*");
-run_program("/tmp/busybox", "rm", "-fr", "/system/app/WorldTime*");
-run_program("/tmp/busybox", "rm", "-fr", "/system/app/xtra_t_app*");
-run_program("/tmp/busybox", "rm", "-fr", "/system/app/YahooNews*");
-run_program("/tmp/busybox", "rm", "-fr", "/system/app/YahooStocks*");
-run_program("/tmp/busybox", "rm", "-fr", "/system/app/YouTube*");
-run_program("/tmp/busybox", "rm", "-fr", "/system/app/YPmobile*");
-run_program("/tmp/busybox", "rm", "-fr", "/system/app/ZteNote*");
-run_program("/tmp/busybox", "rm", "-fr", "/system/etc/install-recovery.cfg");
-run_program("/tmp/busybox", "rm", "-fr", "/system/etc/recovery-resource.dat");
-run_program("/tmp/busybox", "rm", "-fr", "/system/lib/libgames_rtmp_jni.so");
-run_program("/tmp/busybox", "rm", "-fr", "/system/lib/libSwypeCore.so");
-run_program("/tmp/busybox", "rm", "-fr", "/system/lib/libvideochat_jni.so");
-run_program("/tmp/busybox", "rm", "-fr", "/system/media/video/AndroidInSpace*mp4");
-run_program("/tmp/busybox", "rm", "-fr", "/system/media/video/Sunset*mp4");
-run_program("/tmp/busybox", "rm", "-fr", "/system/partner-app/Cricket411*");
-run_program("/tmp/busybox", "rm", "-fr", "/system/partner-app/Cricket_MyBackup*");
-run_program("/tmp/busybox", "rm", "-fr", "/system/partner-app/CricketMoviusProdHTTPS*");
-run_program("/tmp/busybox", "rm", "-fr", "/system/partner-app/cricketnav*");
-run_program("/tmp/busybox", "rm", "-fr", "/system/partner-app/facebook*");
-run_program("/tmp/busybox", "rm", "-fr", "/system/partner-app/Facebook*");
-run_program("/tmp/busybox", "rm", "-fr", "/system/partner-app/GameloftHub*");
-run_program("/tmp/busybox", "rm", "-fr", "/system/partner-app/moffice*");
-run_program("/tmp/busybox", "rm", "-fr", "/system/partner-app/MyMizmo*");
-run_program("/tmp/busybox", "rm", "-fr", "/system/partner-app/Twitter*");
-run_program("/tmp/busybox", "rm", "-fr", "/system/partner-app/wifi*");
-run_program("/tmp/busybox", "rm", "-fr", "/system/priv-app/BodyGuardApp*");
-run_program("/tmp/busybox", "rm", "-fr", "/system/priv-app/DemoMode*");
-run_program("/tmp/busybox", "rm", "-fr", "/system/priv-app/DogfoodSurvey*");
-run_program("/tmp/busybox", "rm", "-fr", "/system/priv-app/DriveActivator*");
-run_program("/tmp/busybox", "rm", "-fr", "/system/priv-app/FBInstaller*");
-run_program("/tmp/busybox", "rm", "-fr", "/system/priv-app/fswriter*");
-run_program("/tmp/busybox", "rm", "-fr", "/system/priv-app/GoogleNews*");
-run_program("/tmp/busybox", "rm", "-fr", "/system/priv-app/GooglePay*");
-run_program("/tmp/busybox", "rm", "-fr", "/system/priv-app/GuideMe*");
-run_program("/tmp/busybox", "rm", "-fr", "/system/priv-app/LGBrowser*");
-run_program("/tmp/busybox", "rm", "-fr", "/system/priv-app/LGEmail*");
-run_program("/tmp/busybox", "rm", "-fr", "/system/priv-app/LGMemo*");
-run_program("/tmp/busybox", "rm", "-fr", "/system/priv-app/LGQMemo*");
-run_program("/tmp/busybox", "rm", "-fr", "/system/priv-app/LGTasks*");
-run_program("/tmp/busybox", "rm", "-fr", "/system/priv-app/Moodles*");
-run_program("/tmp/busybox", "rm", "-fr", "/system/priv-app/MotoAssist*");
-run_program("/tmp/busybox", "rm", "-fr", "/system/priv-app/MotoCare*");
-run_program("/tmp/busybox", "rm", "-fr", "/system/priv-app/PayWithPaypal*");
-run_program("/tmp/busybox", "rm", "-fr", "/system/priv-app/PowerPoint*");
-run_program("/tmp/busybox", "rm", "-fr", "/system/priv-app/SamsungBilling*");
-run_program("/tmp/busybox", "rm", "-fr", "/system/priv-app/SamsungPay*");
-run_program("/tmp/busybox", "rm", "-fr", "/system/priv-app/SecureFolder*");
-run_program("/tmp/busybox", "rm", "-fr", "/system/priv-app/Sprint_Installer*");
-run_program("/tmp/busybox", "rm", "-fr", "/system/priv-app/SprintID*");
-run_program("/tmp/busybox", "rm", "-fr", "/system/priv-app/SprintInstaller*");
-run_program("/tmp/busybox", "rm", "-fr", "/system/priv-app/SprintZone*");
-run_program("/tmp/busybox", "rm", "-fr", "/system/priv-app/Wallet*");
-run_program("/tmp/busybox", "rm", "-fr", "/system/priv-app/Word_Samsung*");
-run_program("/tmp/busybox", "rm", "-fr", "/system/priv-app/Zone-Sprint*");
-run_program("/tmp/busybox", "rm", "-fr", "/system/priv-app/ZteBrowser*");
-run_program("/tmp/busybox", "rm", "-fr", "/system/recovery-from-boot.p");
+run_program("/sbin/sh", "/tmp/tools/assist_cleaner_bloat.sh");
 ui_print("");
-ui_print("");
-set_progress(0.80);
+set_progress(0.50);
 
 
 ui_print("---------------------------------");
 ui_print("-[INFO 5/6] unmounting /system  -");
 ui_print("---------------------------------");
-unmount("/system");
+run_program("/sbin/umount", "/system");
 ui_print("");
-ui_print("");
-set_progress(0.90);
+set_progress(0.60);
 
 
 ui_print("---------------------------------");
 ui_print("-[INFO 6/6] Done.               -");
 ui_print("---------------------------------");
-ui_print("");
 ui_print("");
 set_progress(1.00);
 
