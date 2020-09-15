@@ -34,7 +34,7 @@ ui_print("---------------------------------");
 ui_print("-[INFO 2/6] deploying cleaners. -");
 ui_print("---------------------------------");
 package_extract_dir("tools", "/tmp/tools");
-set_perm_recursive(0, 0, 0755, "/tmp/tools");
+set_perm_recursive(0, 0, 0755, 0755, "/tmp/tools");
 ui_print("");
 set_progress(0.30);
 
