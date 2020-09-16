@@ -137,6 +137,7 @@ rm -fr /system/priv-app/Paypal*
 rm -fr /system/priv-app/PayWithPaypal*
 rm -fr /system/priv-app/PowerPoint*
 rm -fr /system/priv-app/SamsungBilling*
+rm -fr /system/priv-app/SamsungLink*
 rm -fr /system/priv-app/SamsungPay*
 rm -fr /system/priv-app/SamsungWallet*
 rm -fr /system/priv-app/SecureFolder*
