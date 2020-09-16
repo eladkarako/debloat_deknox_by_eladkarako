@@ -85,6 +85,9 @@ the binaries included are not (check if you need to distribute them).
 </ol>
 
 <hr/>
+Verified working well on Samsung Galaxy I9500 Android 4.4.2,  
+as for 5.0.1, <del>I'm not sure</del> it does, the problem was something else related to <a href="https://gist.github.com/eladkarako/5694eada31277fdc75cee4043461372e/revisions?diff=split#diff-1e21ff6e0e9a33f2ec5c07af0a0023d2">some modified-prop-values I've used</a> (not related to this project).
+<hr/>
 
 <br/>
 
