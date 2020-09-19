@@ -2,9 +2,13 @@
 
 ###
 ### Note
-### 1. do not remove 'Velvet' (has tts libs in usage) causes boot-loops.
-### 2. do not remove 'Flipboard' (permanent widget in home pages).
-### 3. 'StoryAlbum' might cause issues due to shared libs.
+### 0. to freeze apps afterwards, try to get 'Root Uninstaller' (com.rootuninstaller or com.rootuninstaller.pro) by anttek.com .
+### 1. do not remove 'Velvet' (has tts libs in usage) causes boot-loops (as noted in one of the blogs online).
+### 2. do not remove 'Flipboard' (permanent widget in home pages). you can freeze it afterwards you remove it from the demo-home screens on your own.
+### 3. 'StoryAlbum' might cause issues due to shared libs, but you can freeze it 
+### 4. SamsungLink has two components dubbed 'samsung link platform services' the one that is  'SCONE_Android_ProxyService_Lib' ("com.sec.msc.nts.android.proxy") - I look into how safe it is to remove (I currently just freeze it on my device). the ones starting with samsunglink* are safe to remove though.
+### 5. Peel is WatchOn app.
+### 6. S_Translator is a really bad samsung translator that supports limited amount of languages, you can download Google Translate instead.
 ###
 
 ###BLOAT
@@ -60,12 +64,14 @@ rm -fr /system/app/NotesPad*
 rm -fr /system/app/NoteWidget*
 rm -fr /system/app/Paypal*
 rm -fr /system/app/PayWithPaypal*
+rm -fr /system/app/Peel_*
 rm -fr /system/app/Plants_Vs_Zombies*
 rm -fr /system/app/PlayGames*
 rm -fr /system/app/PlusOne*
 rm -fr /system/app/PolarisViewer*
 rm -fr /system/app/Quickoffice*
 rm -fr /system/app/RealRacing*
+rm -fr /system/app/S_Translat*
 rm -fr /system/app/SamsungGame*
 rm -fr /system/app/SamsungGames*
 rm -fr /system/app/SamsungHub*
@@ -84,8 +90,7 @@ rm -fr /system/app/talkback*
 rm -fr /system/app/Timer*
 rm -fr /system/app/TouchPal*
 rm -fr /system/app/Translate*
-rm -fr /system/app/Travel*
-rm -fr /system/app/TravelService_K*
+rm -fr /system/app/TravelService*
 rm -fr /system/app/TravelWidget*
 rm -fr /system/app/TripAdvisor*
 rm -fr /system/app/Twitter*
