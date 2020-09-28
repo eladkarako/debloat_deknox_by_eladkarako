@@ -3,10 +3,41 @@
 <img src="resources/screenshot_1.png" />  
 
 <h3>Usage</h3>
-Flash this from a custom recovery such as TWRP,  
-to clean up KNOX and BLOATWARE (apps, dex, file, folders).  
-Afterwards manually clean-up cache and dalvik-cache, a factory-reset is advised but not required.  
+<ol>
+<li>
+Download The Latest ZIP from assets section of <a href="https://github.com/eladkarako/debloat_deknox_by_eladkarako/releases/latest">https://github.com/eladkarako/debloat_deknox_by_eladkarako/releases/latest</a>,  
+for example <a href="https://github.com/eladkarako/debloat_deknox_by_eladkarako/releases/download/v2020.09.27.1828/debloat_deknox_by_eladkarako_v2020.09.27.1828.zip">https://github.com/eladkarako/debloat_deknox_by_eladkarako/releases/download/v2020.09.27.1828/debloat_deknox_by_eladkarako_v2020.09.27.1828.zip</a>.  
 
+Place the ZIP in your external-SD-Card.  
+Reboot to your custom recovery, choose 'Install', browse for the ZIP and install it.  
+clear the Cache and Dalvik Cache and reboot to system.  
+
+<img src="resources/screenshot_2.png" />  
+<img src="resources/screenshot_3.png" />  
+<img src="resources/screenshot_4.png" />  
+<img src="resources/screenshot_5.png" />  
+<img src="resources/screenshot_6.png" />  
+<img src="resources/screenshot_7.png" />  
+<img src="resources/screenshot_8.png" />  
+<img src="resources/screenshot_9.png" />  
+
+<br/>
+
+<hr/>
+
+<blockquote>
+I advise using <code>debloat_deknox_by_eladkarako</code> as soon as possible.  
+In an optimal condition, you'll be flashing the original firmware with odin in download-mode without rebooting,  
+after that pull out the battery and get into download mode again, with odin selected to not restart flash a modified boot.img set to be permissive,  
+repeating the process pull the battery and get into download mode again, flash custom recovery with odin without reboot.  
+pull out the battery and go directly into recovery mode,  
+there you should flash your custom deodexed-firmware from a zip(best to create non-full installation: framework,app-priv,app,lib,lib64 should be fine),  
+followed by installing the <code>debloat_deknox_by_eladkarako</code> ZIP, supersu, busybox and xposed framework libs.  
+finally preform a factory reset and reboot to system.
+This can reduce the chance of KNOX state flag set.
+</blockquote>
+
+<hr/>
 
 <h3>Dependencies</h3>
 It relays on a binary file in <code>META-INF/com/google/android/update-binary</code>,  
@@ -40,6 +71,8 @@ For example: keep <code>ro.config.knox=0</code> and change the line <code>ro.con
 The modified prop-values also makes the system selinux-permissive, disabling secure storage, and disabling additional KNOX by settings,  
 after changing those prop-values you must do a factory-reset, to the data of WiFi storage.
 
+After those changes you are advised to do a factory reset  
+(anyway, due to some aspects of secure-storage and encryption the WiFi passwords will be reset as well).
 <hr/>
 
 <h2>How To Use As Template? / How To Build?</h2>
