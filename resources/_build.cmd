@@ -3,7 +3,7 @@
 pushd "..\"
 
 set "NAME=debloat_deknox_by_eladkarako"
-set "VERSION=2020.09.27.1828"
+set "VERSION=2020.09.27.2037"
 set "FILENAME=%NAME%_v%VERSION%"
 
 del /f /q "%FILENAME%_aligned.zip"          1>nul 2>nul
