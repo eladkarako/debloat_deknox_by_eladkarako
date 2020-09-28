@@ -81,6 +81,7 @@ rm -fr /system/app/PolarisViewer*
 rm -fr /system/app/Quickoffice*
 rm -fr /system/app/RealRacing*
 rm -fr /system/app/S_Translat*
+rm -fr /system/app/SamsungApps*
 rm -fr /system/app/SamsungGame*
 rm -fr /system/app/SamsungGames*
 rm -fr /system/app/SamsungHub*
