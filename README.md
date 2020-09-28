@@ -1,5 +1,7 @@
 <h1>debloat_deknox_by_eladkarako</h1>
 
+<img src="resources/screenshot_1.png" />  
+
 <h3>Usage</h3>
 Flash this from a custom recovery such as TWRP,  
 to clean up KNOX and BLOATWARE (apps, dex, file, folders).  
