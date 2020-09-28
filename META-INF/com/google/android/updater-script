@@ -1,11 +1,11 @@
 ui_print("");
 ui_print("");
 ui_print("");
-ui_print("=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=");
-ui_print("=  debloat_deknox_by_eladkarako v2020.09.14     =");
-ui_print("=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=");
-ui_print("=  afterwards, manually clear your caches.      =");
-ui_print("=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=");
+ui_print("=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=");
+ui_print("=  debloat_deknox_by_eladkarako               =");
+ui_print("=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=");
+ui_print("=  afterwards, manually clear your caches.    =");
+ui_print("=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=");
 ui_print("");
 set_progress(0.10);
 
