@@ -2,17 +2,25 @@
 
 ###
 ### Note
+### 0. when you update system apps, they 'move' to under /data/app/ - which this script does not handle. you can reset those apps (remove the updates and their data) so they'll 'be back' in under /system/app/ (or /system/priv-app/ etc..).
 ### 0. to freeze apps afterwards, try to get 'Root Uninstaller' (com.rootuninstaller or com.rootuninstaller.pro) by anttek.com .
-### 1. do not remove 'Velvet' (has tts libs in usage) causes boot-loops (as noted in one of the blogs online).
-### 2. do not remove 'Flipboard' (permanent widget in home pages). you can freeze it afterwards you remove it from the demo-home screens on your own.
+### 1. do not remove 'Velvet' ("Google app" com.google.android.googlequicksearchbox) it causes boot-loops (as noted in one of the blogs online), but after you remove its widget you CAN freeze it, it isn't a needed componenet, just a search-widget.
+### 2. do not remove 'Flipboard' (permanent widget in home pages), for the same reason not to remove 'Velvet' (Google app), it is default widget, after you'll remove it from the home-screens, you may freeze it.
 ### 3. 'StoryAlbum' might cause issues due to shared libs, but you can freeze it 
 ### 4. SamsungLink has two components dubbed 'samsung link platform services' the one that is  'SCONE_Android_ProxyService_Lib' ("com.sec.msc.nts.android.proxy") - I look into how safe it is to remove (I currently just freeze it on my device). the ones starting with samsunglink* are safe to remove though.
 ### 5. Peel is WatchOn app.
 ### 6. S_Translator is a really bad samsung translator that supports limited amount of languages, you can download Google Translate instead.
+### 7. uninstalling 'SmartManager_OSUP' and 'SmartManagerSDK_OSUP' can make your CPU be VERY high, beacuse one of its jobs is to close down apps in the background after some time. when you have data-sync on, chrome, gmail, firefox, whatsapp and whatever services you've installed will start every now and again to sync the data, they often keep running in the background. But 'SmartManager_OSUP' really slows down the device after few days of run.  The solution is to do two things first install 'Android Assistant' (v23.29 build 119 is fine), and use its startup-manager to auto-close applications, it can allow you to quick kill apps. second is to use the button for 'last apps' and clear the list after you've done with the apps. third is to enable (if not already enabled) the developer options and set limit background processess to 4 or less (see near the bottom). it is a good alternative to the smartmanager service, that will not slow down your phone. and will allow SIM/settings/google play store operate safely in the background plus as many apps you need to run in front-end. I've backup it in here: https://github.com/eladkarako/icompile/releases/download/latest/SmartManager_OSUP__and__SmartManagerSDK_OSUP__from_i9500_android501__put_under__system_priv-app__deodexed.7z
+### 8. dropbox may be useful but for me it is just bloatware, although if you register it from the startup app you'll get 50GB for 2years, so I've backup it in here: https://github.com/eladkarako/icompile/releases/download/latest/dropbox_and_dropboxoobe_from_i9500_android501__put_under__system_app__deodexed_get_50gb_for_2_years.7z
+### 9. SHealth (app and services) take a lot of CPU and potentially background tracking your movements, removed but backup in here: https://github.com/eladkarako/icompile/releases/download/latest/SHealth35_and_HealthService_from_i9500_android501__put_under__system_priv-app__deodexed.7z
+### 10. ANT+ is wireless radio interaction with health-related monitors, probably the most useless services and app you'll have on your phone. almost no one uses that (and most of the time you can use bluetooth instead). There are several apps and background services 'AntHalService', 'ANTPlusPlugins', 'ANTPlusTest', 'ANTRadioService' - and if you'll update them they will move to under /data/app/
 ###
 
 ###BLOAT
 rm -fr /system/app/aaIgnite*
+rm -fr /system/app/AntHal*
+rm -fr /system/app/ANTPlus*
+rm -fr /system/app/ANTRadio*
 rm -fr /system/app/ATTSmartWiFi*
 rm -fr /system/app/BatteryTracer*
 rm -fr /system/app/Books*
@@ -33,6 +41,7 @@ rm -fr /system/app/Cricket-Connect*
 rm -fr /system/app/CricketLauncher_MyAccount*
 rm -fr /system/app/DigitalLocker*
 rm -fr /system/app/Drive*
+rm -fr /system/app/Dropbox*
 rm -fr /system/app/EditorsDocs*
 rm -fr /system/app/Evernote*
 rm -fr /system/app/facebook*
@@ -130,6 +139,7 @@ rm -fr /system/priv-app/fswriter*
 rm -fr /system/priv-app/GoogleNews*
 rm -fr /system/priv-app/GooglePay*
 rm -fr /system/priv-app/GuideMe*
+rm -fr /system/priv-app/HealthService*
 rm -fr /system/priv-app/LGBrowser*
 rm -fr /system/priv-app/LGEmail*
 rm -fr /system/priv-app/LGMemo*
@@ -141,11 +151,14 @@ rm -fr /system/priv-app/MotoCare*
 rm -fr /system/priv-app/Paypal*
 rm -fr /system/priv-app/PayWithPaypal*
 rm -fr /system/priv-app/PowerPoint*
+rm -fr /system/priv-app/SamsungApps*
 rm -fr /system/priv-app/SamsungBilling*
 rm -fr /system/priv-app/SamsungLink*
 rm -fr /system/priv-app/SamsungPay*
 rm -fr /system/priv-app/SamsungWallet*
 rm -fr /system/priv-app/SecureFolder*
+rm -fr /system/priv-app/SHealth*
+rm -fr /system/priv-app/SmartManager*
 rm -fr /system/priv-app/Sprint_Installer*
 rm -fr /system/priv-app/SprintID*
 rm -fr /system/priv-app/SprintInstaller*
