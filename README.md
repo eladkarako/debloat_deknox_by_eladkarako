@@ -3,8 +3,6 @@
 <img src="resources/screenshot_1.png" />  
 
 <h3>Usage</h3>
-<ol>
-<li>
 Download The Latest ZIP from assets section of <a href="https://github.com/eladkarako/debloat_deknox_by_eladkarako/releases/latest">https://github.com/eladkarako/debloat_deknox_by_eladkarako/releases/latest</a>,  
 for example <a href="https://github.com/eladkarako/debloat_deknox_by_eladkarako/releases/download/v2020.09.27.1828/debloat_deknox_by_eladkarako_v2020.09.27.1828.zip">https://github.com/eladkarako/debloat_deknox_by_eladkarako/releases/download/v2020.09.27.1828/debloat_deknox_by_eladkarako_v2020.09.27.1828.zip</a>.  
 
