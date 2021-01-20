@@ -120,6 +120,36 @@ the binaries included are not (check if you need to distribute them).
 <hr/>
 Verified working well on Samsung Galaxy I9500 Android 4.4.2,  
 as for 5.0.1, <del>I'm not sure</del> it does, the problem was something else related to <a href="https://gist.github.com/eladkarako/5694eada31277fdc75cee4043461372e/revisions?diff=split#diff-1e21ff6e0e9a33f2ec5c07af0a0023d2">some modified-prop-values I've used</a> (not related to this project).
+
+<hr/>
+
+After you update an app,  
+it goes into your <code>/data/app</code> instead (in addition to) <code>/system/app</code> (or <code>/system/priv-app</code> or whatever..),  
+although this "project" is meant to clean a newly installed firmware (before updates),  
+I'm starting to change the way the <code>assist_cleaner_bloat.sh</code> looks,  
+normally it was just a sorted list of paths (which was easy to maintain and see diff.s),  
+but applications in <code>/data/app</code> are stored by their package name,  
+and sometimes with the addition of <code>-1</code> suffix, for now I'm searching,  
+at least for the known apks in one firmware I've got and apkmirror for the package name (or 'names'),  
+and add it to the <code>assist_cleaner_bloat.sh</code> file,  
+since I've already got some good information, it makes more sense to group 'removal-lines' by the app names (or category in-case there are some related apps),  
+and for now I'm not dealing with the actual deleting, just adding those lines in a 'commented out' format.
+
+for example: 
+```sh
+#--------------------------------YouTube
+rm -fr /system/app/YouTube*
+###rm -fr /data/app/com.google.android.youtube*
+###rm -fr /data/app/com.google.android.apps.youtube*
+```
+
+if I'll comment out the last two lines, you might loose your updated app.
+
+In a clean firmware there are non-of those issues,  
+no actual user data to be removing anyway.  
+
+Maybe I'll revert it back to how it was,  
+and let users just uninstall their updated programs manually.
 <hr/>
 
 <br/>
